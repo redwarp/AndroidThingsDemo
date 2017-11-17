@@ -1,0 +1,50 @@
+int sensorPin = A1;
+int sensorValue = 0;
+int motorPin = 5;
+
+int SENSOR_THRESHOLD = 800;
+
+#define DEBUG 1
+
+boolean shouldTurnOnPump() {
+  int temperature = Bean.getTemperature();
+  sensorValue = analogRead(sensorPin);
+#if DEBUG
+  Serial.println(sensorValue, DEC);
+#endif
+
+  // TODO: Do something with the temperature...
+  // SENSOR FUSION FOR LIFE!
+  if(sensorValue >= SENSOR_THRESHOLD) {
+    return true;
+  }
+  return false;
+}
+
+void setup() {
+#if DEBUG
+  Serial.begin();
+#endif
+  pinMode(motorPin, OUTPUT);
+  digitalWrite(motorPin, LOW);
+}
+
+void loop() {
+  if(shouldTurnOnPump()) {
+#if DEBUG
+    Serial.println("Motor on");
+    Bean.setLed(0, 255, 0);
+#endif
+    digitalWrite(motorPin, HIGH);
+
+  } else {
+#if DEBUG
+    Serial.println("Motor off");
+    Bean.setLed(255, 0, 0);
+#endif
+    digitalWrite(motorPin, LOW);
+  }
+
+  Bean.sleep(1000);
+  Bean.setLed(0, 0, 0);
+}
