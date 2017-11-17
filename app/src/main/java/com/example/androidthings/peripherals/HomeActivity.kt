@@ -25,9 +25,12 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.google.android.things.pio.Gpio
-import com.google.android.things.pio.GpioCallback
 import com.google.android.things.pio.PeripheralManagerService
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HomeActivity : Activity() {
 
@@ -59,10 +62,21 @@ class HomeActivity : Activity() {
     private val mcp3008 = MCP3008(CS_PIN, CLOCK_PIN, MOSI_PIN, MISO_PIN)
 
     private var mPumping: Boolean = false
+    private var mDatabase: FirebaseDatabase? = null
+    private var mStatusRef: DatabaseReference? = null
+    private var mValueRef: DatabaseReference? = null
+    private var mGardeningRef: DatabaseReference? = null
+    private var mCounter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        // Firebase Setup
+        mDatabase = FirebaseDatabase.getInstance()
+        mStatusRef = mDatabase?.getReference("status")
+        mValueRef = mDatabase?.getReference("value")
+        mGardeningRef = mDatabase?.getReference("gardening")
 
         val service = PeripheralManagerService()
         Log.d(TAG, "Available GPIO: " + service.gpioList)
@@ -85,6 +99,7 @@ class HomeActivity : Activity() {
                 if (!running) {
                     return@mcpRunnable
                 }
+                mStatusRef?.setValue("reading")
 
                 val readAdc0 = mcp3008.readAdc(0)
 
@@ -96,14 +111,20 @@ class HomeActivity : Activity() {
                 mPumpGpio!!.value = convertedValue > 0.5f
                 Log.d(TAG, "Pump value = ${mPumpGpio!!.value}")
                 findViewById<WaterLevelView>(R.id.water_level).value = 1.0f - convertedValue
-
-                findViewById<View>(R.id.main_view).setBackgroundColor(interpolator.evaluate(convertedValue, Color.GREEN, Color.RED) as Int)
+                findViewById<View>(R.id.main_view).setBackgroundColor(
+                        interpolator.evaluate(convertedValue, Color.GREEN, Color.RED) as Int)
 
                 if (running) {
                     mcpHandler?.postDelayed(mcpRunnable, 60)
+                    mCounter += 60
+                    if (mCounter >= 1000) {
+                        mCounter = 0
+                        mValueRef?.setValue(convertedValue)
+                    }
                 }
 
                 if (convertedValue > 0.5f && !mPumping) {
+                    mStatusRef?.setValue("pumping")
                     Log.d(TAG, "Staring to pump")
                     mPumping = true
                     mPumpTempGpio!!.value = true
@@ -111,6 +132,11 @@ class HomeActivity : Activity() {
                         mPumpTempGpio!!.value = false
                         mPumping = false
                         Log.d(TAG, "Stopping to pump")
+
+                        val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.US)
+                        val date = dateFormat.format(Date())
+                        mGardeningRef?.child(System.currentTimeMillis().toString())?.setValue(date)
+
                     }
                     mcpPumpHandler?.postDelayed(mcpPumpRunnable, 1000)
                 }
