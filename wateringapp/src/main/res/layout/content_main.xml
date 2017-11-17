@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.androidthings.peripherals.companion.MainActivity"
+    tools:showIn="@layout/activity_main"
+    android:orientation="vertical">
+
+    <Button
+        style="@style/Base.Widget.AppCompat.Button.Colored"
+        android:id="@+id/button_give_water"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/give_water"
+        android:drawableStart="@drawable/water"
+        android:textColor="@color/colorPrimaryText"
+        tools:targetApi="m" />
+
+    <Button
+        style="@style/Base.Widget.AppCompat.Button.Colored"
+        android:visibility="gone"
+        android:id="@+id/button_stop_engine"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/stop_engine"
+        android:textColor="@color/colorPrimaryText"
+        android:drawableStart="@drawable/water_off"
+        tools:targetApi="m" />
+
+    <ListView
+        android:id="@+id/gardening_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
