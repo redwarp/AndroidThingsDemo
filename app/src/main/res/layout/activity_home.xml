@@ -52,4 +52,14 @@
         android:src="@drawable/ic_power_button"
         android:tint="@android:color/white" />
 
+    <ImageView
+        android:id="@+id/carrot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="32dp"
+        android:layout_toEndOf="@+id/water_level"
+        android:layout_toStartOf="@+id/start"
+        app:srcCompat="@drawable/ic_carrot_pot" />
+
 </RelativeLayout>
