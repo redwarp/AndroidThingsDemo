@@ -111,8 +111,6 @@ class HomeActivity : AppCompatActivity() {
                 mPumpGpio!!.value = convertedValue > 0.5f
                 Log.d(TAG, "Pump value = ${mPumpGpio!!.value}")
                 findViewById<WaterLevelView>(R.id.water_level).value = 1.0f - convertedValue
-                findViewById<View>(R.id.main_view).setBackgroundColor(
-                        interpolator.evaluate(convertedValue, Color.GREEN, Color.RED) as Int)
 
                 if (running) {
                     mcpHandler?.postDelayed(mcpRunnable, 60)
@@ -150,6 +148,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        running = false
 
         // Close the button
         if (mSensorGpio != null) {
@@ -160,7 +159,15 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        running = false
+        if (mPumpGpio != null) {
+            try {
+                mPumpGpio!!.value = false
+                mPumpGpio!!.close()
+            } catch (e: IOException) {
+                Log.w(TAG, "Error closing GPIO", e)
+            }
+        }
+
         mcp3008.unregister()
     }
 
