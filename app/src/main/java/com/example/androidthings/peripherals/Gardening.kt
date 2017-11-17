@@ -26,8 +26,8 @@ class Gardening(val database: DatabaseReference) {
     private val stopAction = Runnable {
         val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.US)
         val date = dateFormat.format(Date())
-        val duration = (lastStop - start) / 1000
-        database.child(lastStop.toString())?.setValue("$date (Water ran for ${duration}s)")
+        val duration = (lastStop - start)
+        database.child(lastStop.toString())?.setValue("$date (Water ran for ${duration}ms)")
         start = 0L
     }
 }

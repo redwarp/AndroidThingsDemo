@@ -10,6 +10,11 @@ import android.view.View
 class PlantView : View {
     lateinit var plantDrawable: Drawable
     lateinit var waterDrawable: Drawable
+    var value: Float = 1.0f
+        set(value) {
+            field = value
+            invalidate()
+        }
 
     constructor(context: Context) : super(context) {
         sharedInit(null)
@@ -24,6 +29,13 @@ class PlantView : View {
     }
 
     fun sharedInit(attrs: AttributeSet?) {
+        val styledAttributes = context.obtainStyledAttributes(attrs, R.styleable.PlantView)
+        try {
+            value = styledAttributes.getFloat(R.styleable.PlantView_value, 0.0f)
+        } finally {
+            styledAttributes.recycle()
+        }
+
         waterDrawable = context.getDrawable(R.drawable.ic_water_in_pot)
         plantDrawable = context.getDrawable(R.drawable.ic_carrot_pot)
         val bounds = Rect(0, 0, 200.dpToPx, 200.dpToPx)
@@ -37,7 +49,19 @@ class PlantView : View {
             canvas.save()
             canvas.translate((width - 200f.dpToPx) / 2f, (height - 200f.dpToPx) / 2f)
 
+            canvas.save()
+
+            val clipHeight: Int = (10 + value * 80).dpToPx.toInt()
+            canvas.clipRect(0, 200.dpToPx - clipHeight, 200.dpToPx, 200.dpToPx)
+
+//            val paint = Paint()
+//            paint.color = Color.RED
+//            paint.style = Paint.Style.FILL
+//            canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+
             waterDrawable.draw(canvas)
+            canvas.restore()
+
             plantDrawable.draw(canvas)
             canvas.restore()
         }

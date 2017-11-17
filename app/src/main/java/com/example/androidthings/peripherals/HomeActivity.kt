@@ -52,12 +52,14 @@ class HomeActivity : AppCompatActivity() {
     private var shouldManualPump: Boolean = false
 
     private lateinit var mWaterView: WaterLevelView
+    private lateinit var mPlantView: WaterLevelView
     private lateinit var mCloudView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         mWaterView = findViewById(R.id.water_level)
+        mPlantView = findViewById(R.id.plant)
         mCloudView = findViewById(R.id.cloud)
 
         // Firebase Setup
@@ -108,6 +110,7 @@ class HomeActivity : AppCompatActivity() {
 
             led?.value = shouldPump()
             mWaterView.value = 1.0f - waterLevel
+            mPlantView.value = 1.0f - waterLevel
 
             Log.d(TAG, "Pump value = ${led!!.value}, Adc values: channel 0 = $readAdc0, to float = $waterLevel")
 

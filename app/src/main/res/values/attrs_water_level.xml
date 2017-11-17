@@ -3,4 +3,8 @@
     <declare-styleable name="WaterLevelView">
         <attr name="value" format="float" />
     </declare-styleable>
+
+    <declare-styleable name="PlantView">
+        <attr name="value" />
+    </declare-styleable>
 </resources>
