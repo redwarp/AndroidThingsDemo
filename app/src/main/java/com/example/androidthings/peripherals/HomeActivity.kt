@@ -13,8 +13,6 @@ import com.google.android.things.pio.PeripheralManagerService
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 
 class HomeActivity : AppCompatActivity() {
 
@@ -47,7 +45,7 @@ class HomeActivity : AppCompatActivity() {
     private var mDatabase: FirebaseDatabase? = null
     private var mStatusRef: DatabaseReference? = null
     private var mValueRef: DatabaseReference? = null
-    private var mGardeningRef: DatabaseReference? = null
+    private var gardening: Gardening? = null
 
     private var waterLevel: Float = 0.0f
     private var isDisarmed: Boolean = false
@@ -66,7 +64,10 @@ class HomeActivity : AppCompatActivity() {
         mDatabase = FirebaseDatabase.getInstance()
         mStatusRef = mDatabase?.getReference("status")
         mValueRef = mDatabase?.getReference("value")
-        mGardeningRef = mDatabase?.getReference("gardening")
+        val gardeningRef = mDatabase?.getReference("gardening")
+        if (gardeningRef != null) {
+            gardening = Gardening(gardeningRef)
+        }
 
         // Peripheral Setup
         val service = PeripheralManagerService()
@@ -86,10 +87,6 @@ class HomeActivity : AppCompatActivity() {
 
         // Start the main event Loop
         mEventHandler.post(mEventLoopRunnable)
-
-//        findViewById<ImageButton>(R.id.start).setOnClickListener {
-//            water()
-//        }
 
         findViewById<ImageButton>(R.id.start).setOnTouchListener(WaterTouchListener())
 
@@ -135,9 +132,7 @@ class HomeActivity : AppCompatActivity() {
         isPumping = false
         Log.d(TAG, "Stopping to pump")
 
-        val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.US)
-        val date = dateFormat.format(Date())
-        mGardeningRef?.child(System.currentTimeMillis().toString())?.setValue(date)
+        gardening?.stop()
         updateCloudState()
     }
 
@@ -205,6 +200,7 @@ class HomeActivity : AppCompatActivity() {
         if (isPumping) {
             return
         }
+        gardening?.start()
 
         mStatusRef?.setValue("pumping")
         Log.d(TAG, "Starting to pump")
