@@ -71,12 +71,10 @@ class MainActivity : AppCompatActivity() {
         builder.setMessage("Are you sure to water?")
                 .setIcon(R.drawable.water)
                 .setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No") {
-                    _,_ -> // no-op.
-                }.show()
+                .setNegativeButton("No") { d,_ -> d.dismiss() }.show()
     }
 
-    private var dialogClickListener  = DialogInterface.OnClickListener { p0, p1 ->
+    private var dialogClickListener  = DialogInterface.OnClickListener { _, _ ->
         mRoot = findViewById(R.id.root)
         Snackbar.make(mRoot!!, "Succesfully sent water command", Snackbar.LENGTH_LONG).show()
         FirebaseDatabase.getInstance().reference.child("command").setValue(true)

@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:text="@string/give_water"
         android:drawableStart="@drawable/water"
-        android:textColor="@color/colorPrimaryText"
+        android:drawableTint="@color/colorIcons"
         tools:targetApi="m" />
 
     <Button
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:text="@string/stop_engine"
         android:textColor="@color/colorPrimaryText"
-        android:drawableStart="@drawable/water_off"
+        android:drawableTint="@color/colorIcons"
         tools:targetApi="m" />
 
     <ListView
