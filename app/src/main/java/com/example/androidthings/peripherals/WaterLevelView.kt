@@ -75,5 +75,4 @@ class WaterLevelView : View {
         }
     }
 
-    val Float.dpToPx: Float get() = (this * Resources.getSystem().displayMetrics.density)
 }
