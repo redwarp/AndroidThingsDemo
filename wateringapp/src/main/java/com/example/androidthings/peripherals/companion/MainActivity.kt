@@ -1,6 +1,7 @@
 package com.example.androidthings.peripherals.companion
 
 import android.content.DialogInterface
+import android.database.DataSetObserver
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
@@ -35,6 +36,15 @@ class MainActivity : AppCompatActivity() {
 
         mAdapter = setupFirebaseAdapter()
         mList = findViewById(R.id.gardening_list)
+
+        mAdapter?.registerDataSetObserver(object : DataSetObserver() {
+            override fun onChanged() {
+                super.onChanged()
+                val count = mAdapter?.count ?: 0
+                mList?.smoothScrollToPosition(count.minus(1))
+            }
+        })
+
         mList?.adapter = mAdapter
 
         mButton = findViewById(R.id.button_give_water)
@@ -71,10 +81,10 @@ class MainActivity : AppCompatActivity() {
         builder.setMessage("Are you sure to water?")
                 .setIcon(R.drawable.water)
                 .setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No") { d,_ -> d.dismiss() }.show()
+                .setNegativeButton("No") { d, _ -> d.dismiss() }.show()
     }
 
-    private var dialogClickListener  = DialogInterface.OnClickListener { _, _ ->
+    private var dialogClickListener = DialogInterface.OnClickListener { _, _ ->
         mRoot = findViewById(R.id.root)
         Snackbar.make(mRoot!!, "Succesfully sent water command", Snackbar.LENGTH_LONG).show()
         FirebaseDatabase.getInstance().reference.child("command").setValue(true)
