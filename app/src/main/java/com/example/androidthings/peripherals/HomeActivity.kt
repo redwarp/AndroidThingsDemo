@@ -52,7 +52,7 @@ class HomeActivity : AppCompatActivity() {
     private var shouldManualPump: Boolean = false
 
     private lateinit var mWaterView: WaterLevelView
-    private lateinit var mPlantView: WaterLevelView
+    private lateinit var mPlantView: PlantView
     private lateinit var mCloudView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
