@@ -89,9 +89,9 @@ class HomeActivity : AppCompatActivity() {
         pump!!.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW)
 
         mCommandRef?.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError?) { }
+            override fun onCancelled(p0: DatabaseError?) {}
             override fun onDataChange(p0: DataSnapshot?) {
-                if (p0?.value == true){
+                if (p0?.value == true) {
                     Log.d(TAG, "User requested some water from Firebase")
                     water()
                     mCommandRef?.setValue(false)
@@ -117,18 +117,18 @@ class HomeActivity : AppCompatActivity() {
                 return
             }
 
-            mStatusRef?.setValue("reading")
+            if (!isPumping) {
+                mStatusRef?.setValue("reading")
 
-            val readAdc0 = mcp3008.readAdc(0)
-            waterLevel = convertAdcValue(readAdc0)
+                val readAdc0 = mcp3008.readAdc(0)
+                waterLevel = convertAdcValue(readAdc0)
 
-            led?.value = shouldPump()
-            mWaterView.value = 1.0f - waterLevel
-            mPlantView.value = 1.0f - waterLevel
+                led?.value = shouldPump()
+                mWaterView.value = 1.0f - waterLevel
+                mPlantView.value = 1.0f - waterLevel
 
-            Log.d(TAG, "Pump value = ${led!!.value}, Adc values: channel 0 = $readAdc0, to float = $waterLevel")
-
-            mEventHandler.postDelayed(this, 60)
+                Log.d(TAG, "Pump value = ${led!!.value}, Adc values: channel 0 = $readAdc0, to float = $waterLevel")
+            }
 
             // Filtering values sent to Firebase to one every second.
             mCounter += 60
@@ -141,6 +141,7 @@ class HomeActivity : AppCompatActivity() {
             if (shouldPump()) {
                 water()
             }
+            mEventHandler.postDelayed(this, 60)
         }
     }
 
