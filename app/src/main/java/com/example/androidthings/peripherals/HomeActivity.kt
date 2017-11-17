@@ -17,10 +17,10 @@
 package com.example.androidthings.peripherals
 
 import android.animation.ArgbEvaluator
-import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -28,7 +28,7 @@ import com.google.android.things.pio.Gpio
 import com.google.android.things.pio.PeripheralManagerService
 import java.io.IOException
 
-class HomeActivity : Activity() {
+class HomeActivity : AppCompatActivity() {
 
 
     companion object {
