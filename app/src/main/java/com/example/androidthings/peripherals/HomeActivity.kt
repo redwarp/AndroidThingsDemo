@@ -10,8 +10,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import com.google.android.things.pio.Gpio
 import com.google.android.things.pio.PeripheralManagerService
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import java.io.IOException
 
 class HomeActivity : AppCompatActivity() {
@@ -45,6 +44,7 @@ class HomeActivity : AppCompatActivity() {
     private var mDatabase: FirebaseDatabase? = null
     private var mStatusRef: DatabaseReference? = null
     private var mValueRef: DatabaseReference? = null
+    private var mCommandRef: DatabaseReference? = null
     private var gardening: Gardening? = null
 
     private var waterLevel: Float = 0.0f
@@ -66,6 +66,7 @@ class HomeActivity : AppCompatActivity() {
         mDatabase = FirebaseDatabase.getInstance()
         mStatusRef = mDatabase?.getReference("status")
         mValueRef = mDatabase?.getReference("value")
+        mCommandRef = mDatabase?.getReference("command")
         val gardeningRef = mDatabase?.getReference("gardening")
         if (gardeningRef != null) {
             gardening = Gardening(gardeningRef)
@@ -87,11 +88,24 @@ class HomeActivity : AppCompatActivity() {
         pump = service.openGpio(PUMP_PIN)
         pump!!.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW)
 
+        mCommandRef?.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError?) { }
+            override fun onDataChange(p0: DataSnapshot?) {
+                if (p0?.value == true){
+                    Log.d(TAG, "User requested some water from Firebase")
+                    water()
+                    mCommandRef?.setValue(false)
+                } else {
+                    Log.d(TAG, "Nothing to do")
+                }
+            }
+
+        })
+
         // Start the main event Loop
         mEventHandler.post(mEventLoopRunnable)
 
         findViewById<ImageButton>(R.id.start).setOnTouchListener(WaterTouchListener())
-
         findViewById<ImageButton>(R.id.stop).setOnClickListener {
             toggle()
         }
@@ -199,7 +213,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    fun water() {
+    fun water(duration: Long = 500) {
         if (isPumping) {
             return
         }
@@ -211,7 +225,7 @@ class HomeActivity : AppCompatActivity() {
         isPumping = true
         pump!!.value = true
         updateCloudState()
-        mPumpHandler.postDelayed(mStopPumpRunnable, 1000)
+        mPumpHandler.postDelayed(mStopPumpRunnable, duration)
     }
 
     inner class WaterTouchListener : View.OnTouchListener {
