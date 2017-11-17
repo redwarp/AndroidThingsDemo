@@ -39,7 +39,6 @@ android {
 dependencies {
     provided 'com.google.android.things:androidthings:+'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-}
-repositories {
-    mavenCentral()
+    compile "com.android.support:support-vector-drawable:26.0.0"
+
 }

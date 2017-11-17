@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="213.74028"
+   height="231.29268"
+   version="1.1"
+   id="svg34"
+   sodipodi:docname="power-button.svg"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1440"
+     inkscape:window-height="855"
+     id="namedview36"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="0.49166667"
+     inkscape:cx="107.56723"
+     inkscape:cy="90.36267"
+     inkscape:window-x="0"
+     inkscape:window-y="1"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg34" />
+  <title
+     id="title2">Power symbol</title>
+  <defs
+     id="defs22">
+    <radialGradient
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.5308677,1.2916372,-2.1866817,2.5916882,646.39067,446.15944)"
+       r="3.5991089"
+       fy="78.383865"
+       fx="-79.366173"
+       cy="78.383865"
+       cx="-79.366173"
+       id="radialGradient6158"
+       xlink:href="#linearGradient6152" />
+    <linearGradient
+       id="linearGradient6152">
+      <stop
+         stop-color="#ffffff"
+         id="stop6154"
+         offset="0" />
+      <stop
+         stop-color="#ffffff"
+         stop-opacity="0"
+         id="stop6156"
+         offset="1" />
+    </linearGradient>
+    <filter
+       id="filter6164"
+       style="color-interpolation-filters:sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur6166"
+         stdDeviation="0.061618" />
+    </filter>
+    <radialGradient
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.99933088,0.03657579,-0.12719005,3.4751113,441.91472,294.71537)"
+       r="1.6031899"
+       fy="71.562454"
+       fx="-66.436394"
+       cy="71.562454"
+       cx="-66.436394"
+       id="radialGradient6108"
+       xlink:href="#linearGradient6102" />
+    <linearGradient
+       id="linearGradient6102">
+      <stop
+         stop-color="#ffffff"
+         id="stop6104"
+         offset="0" />
+      <stop
+         stop-color="#ffffff"
+         stop-opacity="0"
+         id="stop6106"
+         offset="1" />
+    </linearGradient>
+    <filter
+       id="filter6114"
+       style="color-interpolation-filters:sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur6116"
+         stdDeviation="0.017083" />
+    </filter>
+    <radialGradient
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.99939122,0.03488814,-0.15614592,4.4728914,443.89071,224.25367)"
+       r="1.8178"
+       fy="70.93985"
+       fx="-71.290398"
+       cy="70.93985"
+       cx="-71.290398"
+       id="radialGradient6098"
+       xlink:href="#linearGradient6048" />
+    <linearGradient
+       id="linearGradient6048">
+      <stop
+         stop-color="#ffffff"
+         id="stop6050"
+         offset="0" />
+      <stop
+         stop-color="#0dee1b"
+         stop-opacity="0"
+         id="stop6052"
+         offset="1" />
+    </linearGradient>
+    <filter
+       id="filter6088"
+       style="color-interpolation-filters:sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur6090"
+         stdDeviation="0.02825" />
+    </filter>
+  </defs>
+  <metadata
+     id="metadata6283">image/svg+xml<rdf:RDF>
+  <cc:Work
+     rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type
+       rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:title>Power symbol</dc:title>
+  </cc:Work>
+</rdf:RDF>
+</metadata>
+  <g
+     id="g32"
+     transform="translate(-212.43277,-99.06999)">
+    <title
+       id="title25">Layer 1</title>
+    <path
+       style="fill:#000000;fill-rule:evenodd"
+       d="m 305.54999,105.851 c 0,40.96867 0,81.93733 0,122.906 11.657,0 23.31401,0 34.97101,0 0,-40.96867 0,-81.93733 0,-122.906 -11.657,0 -23.31401,0 -34.97101,0 z"
+       id="path5977-7"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#000000;fill-rule:evenodd"
+       d="m 290.59402,128.66281 c -41.59757,12.9542 -72.19387,54.43041 -71.46902,98.12119 -0.61817,43.29172 29.12255,84.78863 70.34753,98.11058 38.8032,13.59482 85.00567,1.23464 111.50255,-30.3492 29.49803,-32.94385 33.66447,-85.31133 9.4944,-122.38537 -12.81461,-20.41045 -32.95072,-36.07246 -55.87597,-43.4972 0,12.33583 0,24.67166 0,37.00749 28.01139,13.95157 43.79659,48.17696 35.32678,78.44286 -7.61706,31.78556 -39.9926,55.06341 -72.57468,51.89909 -33.80581,-1.90949 -62.9694,-31.81278 -64.00806,-65.66133 -1.74696,-26.46349 13.73345,-52.69381 37.25648,-64.68062 -10e-6,-12.33583 1e-5,-24.67168 -10e-6,-37.00749 z"
+       id="path5975-1"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:url(#radialGradient6098);filter:url(#filter6088)"
+       d="m 305.54999,106.847 c 0,25.92337 0,51.84673 0,77.7701 2.32667,-23.2647 4.65334,-46.5294 6.98001,-69.7941 9.30577,-2.65867 18.61153,-5.31733 27.9173,-7.976 -11.63244,0 -23.26487,0 -34.89731,0 z"
+       id="path6086"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:url(#radialGradient6108);filter:url(#filter6114)"
+       d="m 354.90479,165.6436 c -0.12293,-12.0545 -0.24585,-24.109 -0.36878,-36.1635 10.19881,1.30725 27.93321,12.45008 30.14245,15.87544 -7.72402,-2.04028 -15.44803,-4.08057 -23.17205,-6.12085 -2.20054,8.80297 -4.40108,17.60594 -6.60162,26.40891 z"
+       id="path6100"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:url(#radialGradient6158);filter:url(#filter6164)"
+       d="m 291.42999,144.7506 c -0.38734,-5.2279 -0.77467,-10.45581 -1.16201,-15.68371 -35.46413,10.12025 -62.70573,41.9261 -68.8117,78.07785 -6.6697,34.51387 4.99931,72.30362 31.34472,95.89725 -23.23658,-28.17247 -34.66519,-67.82082 -22.8645,-103.24456 8.70999,-27.04009 31.20781,-53.80519 61.49349,-55.04683 z"
+       id="path6118"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

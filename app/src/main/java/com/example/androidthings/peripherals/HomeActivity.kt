@@ -25,7 +25,6 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.google.android.things.pio.Gpio
-import com.google.android.things.pio.GpioCallback
 import com.google.android.things.pio.PeripheralManagerService
 import java.io.IOException
 
