@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.MotionEvent
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import com.google.android.things.pio.Gpio
@@ -35,8 +37,8 @@ class HomeActivity : AppCompatActivity() {
     private var pump: Gpio? = null
     private val mcp3008 = MCP3008(CS_PIN, CLOCK_PIN, MOSI_PIN, MISO_PIN)
 
-    private var mIsRunning = true
-    private var mIsPumping = false
+    private var isRunning = true
+    private var isPumping = false
     private var mCounter = 0
 
     private var mEventHandler: Handler = Handler()
@@ -49,6 +51,7 @@ class HomeActivity : AppCompatActivity() {
 
     private var waterLevel: Float = 0.0f
     private var isDisarmed: Boolean = false
+    private var shouldManualPump: Boolean = false
 
     private lateinit var mWaterView: WaterLevelView
     private lateinit var mCloudView: ImageView
@@ -84,10 +87,11 @@ class HomeActivity : AppCompatActivity() {
         // Start the main event Loop
         mEventHandler.post(mEventLoopRunnable)
 
+//        findViewById<ImageButton>(R.id.start).setOnClickListener {
+//            water()
+//        }
 
-        findViewById<ImageButton>(R.id.start).setOnClickListener {
-            water()
-        }
+        findViewById<ImageButton>(R.id.start).setOnTouchListener(WaterTouchListener())
 
         findViewById<ImageButton>(R.id.stop).setOnClickListener {
             toggle()
@@ -96,7 +100,7 @@ class HomeActivity : AppCompatActivity() {
 
     private var mEventLoopRunnable = object : Runnable {
         override fun run() {
-            if (!mIsRunning) {
+            if (!isRunning) {
                 return
             }
 
@@ -110,19 +114,17 @@ class HomeActivity : AppCompatActivity() {
 
             Log.d(TAG, "Pump value = ${led!!.value}, Adc values: channel 0 = $readAdc0, to float = $waterLevel")
 
+            mEventHandler.postDelayed(this, 60)
 
-            if (mIsRunning) {
-                mEventHandler.postDelayed(this, 60)
-
-                // Filtering values sent to Firebase to one every second.
-                mCounter += 60
-                if (mCounter >= 1000) {
-                    mCounter = 0
-                    mValueRef?.setValue(waterLevel)
-                }
+            // Filtering values sent to Firebase to one every second.
+            mCounter += 60
+            if (mCounter >= 1000) {
+                mCounter = 0
+                mValueRef?.setValue(waterLevel)
             }
 
-            if (shouldPump() && !mIsPumping) {
+
+            if (shouldPump()) {
                 water()
             }
         }
@@ -130,7 +132,7 @@ class HomeActivity : AppCompatActivity() {
 
     private var mStopPumpRunnable = Runnable {
         pump!!.value = false
-        mIsPumping = false
+        isPumping = false
         Log.d(TAG, "Stopping to pump")
 
         val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.US)
@@ -147,7 +149,7 @@ class HomeActivity : AppCompatActivity() {
         disarmLed?.close()
         pump?.close()
 
-        mIsRunning = false
+        isRunning = false
     }
 
     private fun convertAdcValue(value: Int): Float {
@@ -156,9 +158,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun shouldPump(): Boolean {
+        if (shouldManualPump) {
+            return true
+        }
+
         if (isDisarmed) {
             return false
         }
+
         return waterLevel > 0.5f
     }
 
@@ -176,7 +183,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun updateCloudState() {
-        if (mIsPumping) {
+        if (isPumping) {
             mCloudView.setImageResource(R.drawable.ic_cloud_with_rain)
         } else if (isDisarmed) {
             mCloudView.setImageResource(R.drawable.ic_cloud_off)
@@ -187,20 +194,39 @@ class HomeActivity : AppCompatActivity() {
 
 
     fun toggle() {
-        if (isDisarmed){
+        if (isDisarmed) {
             arm()
-        } else{
+        } else {
             disarm()
         }
     }
 
     fun water() {
-        mStatusRef?.setValue("pumping")
-        Log.d(TAG, "Staring to pump")
+        if (isPumping) {
+            return
+        }
 
-        mIsPumping = true
+        mStatusRef?.setValue("pumping")
+        Log.d(TAG, "Starting to pump")
+
+        isPumping = true
         pump!!.value = true
-        mPumpHandler.postDelayed(mStopPumpRunnable, 1000)
         updateCloudState()
+        mPumpHandler.postDelayed(mStopPumpRunnable, 1000)
+    }
+
+    inner class WaterTouchListener : View.OnTouchListener {
+        override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+            if (event != null) {
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    shouldManualPump = true
+                    return true
+                } else if (event.action == MotionEvent.ACTION_UP) {
+                    shouldManualPump = false
+                    return true
+                }
+            }
+            return false
+        }
     }
 }
