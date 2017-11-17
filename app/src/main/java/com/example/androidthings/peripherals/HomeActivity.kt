@@ -179,7 +179,7 @@ class HomeActivity : AppCompatActivity() {
             return false
         }
 
-        return waterLevel > 0.5f
+        return waterLevel > 0.75f
     }
 
 
